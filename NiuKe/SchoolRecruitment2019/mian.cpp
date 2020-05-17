@@ -429,3 +429,42 @@ int ExpresionValue() {
     }
     return 0;
 }
+
+// 网易：塔
+int Tower() {
+    int n, k;
+    while (cin >> n >> k) {
+        pair<int, int> a[n];
+        for (int i = 0; i < n; i ++) {
+            cin >> a[i].first;
+            a[i].second = i;
+        }
+        sort (a, a + n);
+        int s = a[n - 1].first - a[0].first;
+        int m = 0;
+        pair<int, int> fromTo[k];
+        // s <= 1则无交换必要
+        while (s > 1 && m < k) {
+            // 最高值减1，向左移
+            a[n - 1].first --;
+            fromTo[m].first = a[n - 1].second;
+            int posExchange = n - 2;
+            while (posExchange >= 0 && a[posExchange].first > a[n - 1].first) posExchange --;
+            swap(a[n - 1], a[posExchange + 1]);
+            // 最低值加1，向右移
+            a[0].first ++;
+            fromTo[m].second = a[0].second;
+            posExchange = 1;
+            while (posExchange < n - 1 && a[posExchange].first < a[0].first) posExchange ++;
+            swap(a[0], a[posExchange - 1]);
+            // 更新差值
+            s = a[n - 1].first - a[0].first;
+            m ++;
+        }
+        cout << s << " " << m << endl;
+        for (int i = 0; i < m; i ++) {
+            cout << fromTo[i].first + 1 << " " << fromTo[i].second + 1 << endl;
+        }
+    }
+    return 0;
+}
