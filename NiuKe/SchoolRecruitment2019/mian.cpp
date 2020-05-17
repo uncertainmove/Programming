@@ -144,4 +144,43 @@ int NumberPairs () {
     return 0;
 }
 
-// 
+// 网易：矩形重叠
+int MatrixOverlapping() {
+    int n;
+    cin >> n;
+    int x1[n], y1[n], x2[n], y2[n];
+    for (int i = 0; i < n; i ++) {
+        cin >> x1[i];
+    }
+    for (int i = 0; i < n; i ++) {
+        cin >> y1[i];
+    }
+    for (int i = 0; i < n; i ++) {
+        cin >> x2[i];
+    }
+    for (int i = 0; i < n; i ++) {
+        cin >> y2[i];
+    }
+    int result = 0;
+    for (int i = 0; i < n; i ++) {
+        for (int j = 0; j < n; j ++) {
+            // 每个重叠矩形必然包含某个点(x1[i], y1[j])
+            // 所以只需要记录每个(x1[i], y1[j])点被多少矩形包含
+            int cNum = 0;
+            for (int k = 0; k < n; k ++) {
+                if (x1[i] >= x1[k] && x1[i] < x2[k] && y1[j] >= y1[k] && y1[j] < y2[k]) {
+                    cNum ++;
+                }
+            }
+            result = max(result, cNum);
+        }
+    }
+    cout << result << endl;
+    return 0;
+}
+
+// 网易：牛牛的闹钟
+int main() {
+
+    return 0;
+}
