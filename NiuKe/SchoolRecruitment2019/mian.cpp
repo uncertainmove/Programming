@@ -181,6 +181,37 @@ int MatrixOverlapping() {
 
 // 网易：牛牛的闹钟
 int main() {
-
+    int N;
+    int X;
+    pair<int, int> AB;
+    const int minutesPerHour = 60;
+    const int minutesPerDay = 24 * 60;
+    while (cin >> N) {
+        vector<pair<int, int>> clock (N);
+        for (int i = 0; i < N; i ++) {
+            cin >> clock[i].first >> clock[i].second;
+        }
+        cin >> X;
+        cin >> AB.first >> AB.second;
+        // 从零点开始算，到上课的分钟数
+        int tmp = AB.first * minutesPerHour + AB.second;
+        if (tmp - X >= 0) {
+            // 可以在今天起床
+            tmp = tmp - X;
+        }
+        else {
+            // 需要提前一天起床
+            tmp = minutesPerDay + tmp - X;
+        }
+        sort(clock.begin(), clock.end());
+        pair<int, int> result;
+        for (int i = 0; i < N; i ++) {
+            if (clock[i].first * minutesPerHour + clock[i].second <= tmp) {
+                result = clock[i];
+            }
+            else break;
+        }
+        cout << result.first << " " << result.second << endl;
+    }
     return 0;
 }
