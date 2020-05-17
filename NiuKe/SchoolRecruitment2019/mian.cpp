@@ -327,3 +327,90 @@ int Harvest() {
     }
     return 0;
 }
+
+// 网易：整理房间
+struct Point {
+    double a, b, x, y;
+    int x1, y1;
+    Point (double a, double b, double x, double y) : a(a), b(b), x(x), y(y) {}
+    Point (int x1, int y1) : x1(x1), y1(y1) {}
+};
+
+Point AnticlockwiseRotate(Point p) {
+    // 逆时针旋转特性：可构造全等三角形
+    // 旋转之前：p(a1, b1, x1, y1)
+    // 旋转之后：p(a2, b2, x1, y1)
+    // 公式：a2 - x1 = y1 - b1, b2 - y1 = a1 - x1
+    return Point (p.x + p.y - p.b, p.y - p.x + p.a, p.x, p.y);
+}
+
+bool IsSquare(Point p1, Point p2, Point p3, Point p4) {
+    const double accuracy = 1e-8;
+
+    // 首先判断点不能重合
+    if (p1.a == p2.a && p1.b == p2.b) return false;
+    if (p1.a == p3.a && p1.b == p3.b) return false;
+    if (p1.a == p4.a && p1.b == p4.b) return false;
+    if (p2.a == p3.a && p2.b == p3.b) return false;
+    if (p2.a == p4.a && p2.b == p4.b) return false;
+    if (p3.a == p4.a && p3.b == p4.b) return false;
+
+    double distP1P2 = (p1.a - p2.a) * (p1.a - p2.a) + (p1.b - p2.b) * (p1.b - p2.b);
+    double distP1P3 = (p1.a - p3.a) * (p1.a - p3.a) + (p1.b - p3.b) * (p1.b - p3.b);
+    double distP1P4 = (p1.a - p4.a) * (p1.a - p4.a) + (p1.b - p4.b) * (p1.b - p4.b);
+    double distP2P3 = (p2.a - p3.a) * (p2.a - p3.a) + (p2.b - p3.b) * (p2.b - p3.b);
+    double distP2P4 = (p2.a - p4.a) * (p2.a - p4.a) + (p2.b - p4.b) * (p2.b - p4.b);
+    double distP3P4 = (p3.a - p4.a) * (p3.a - p4.a) + (p3.b - p4.b) * (p3.b - p4.b);
+
+    // p1, p2对角
+    if (fabs(distP1P3 - distP1P4) < accuracy && fabs(distP1P3 - distP2P3) < accuracy && fabs(distP1P3 - distP2P4) < accuracy) {
+        // 四边相等判断垂直
+        if (fabs(distP1P3 + distP1P3 - distP1P2) < accuracy) return true;
+    }
+    // p1, p3对角
+    if (fabs(distP1P2 - distP1P4) < accuracy && fabs(distP1P2 - distP2P3) < accuracy && fabs(distP1P2 - distP3P4) < accuracy) {
+        if (fabs(distP1P2 + distP1P2 - distP1P3) < accuracy) return true;
+    }
+    // p1, p4对角
+    if (fabs(distP1P2 - distP1P3) < accuracy && fabs(distP1P2 - distP2P4) < accuracy && fabs(distP1P2 - distP3P4) < accuracy) {
+        if (fabs(distP1P2 + distP1P2 - distP1P4) < accuracy) return true;
+    }
+    return false;
+}
+
+int TidyRoom() {
+    int n;
+    while (cin >> n) {
+        for (int i = 0; i < n; i ++) {
+            vector<Point> point;
+            for (int j = 0; j < 4; j ++) {
+                double a, b, x, y;
+                cin >> a >> b >> x >> y;
+                point.push_back(Point(a, b, x, y));
+            }
+            int result = 13;
+            for (int r1 = 0; r1 < 4; r1 ++) {
+                for (int r2 = 0; r2 < 4; r2 ++) {
+                    for (int r3 = 0; r3 < 4; r3 ++) {
+                        for (int r4 = 0; r4 < 4; r4 ++) {
+                            if (IsSquare(point[0], point[1], point[2], point[3])) result = min(result, r1 + r2 + r3 + r4);
+                            point[3] = AnticlockwiseRotate(point[3]);
+                        }
+                        point[2] = AnticlockwiseRotate(point[2]);
+                    }
+                    point[1] = AnticlockwiseRotate(point[1]);
+                }
+                point[0] = AnticlockwiseRotate(point[0]);
+            }
+            if (result > 12) cout << -1 << endl;
+            else cout << result << endl;
+        }
+    }
+    return 0;
+}
+
+// 网易：表达式求值
+int main() {
+    
+    return 0;
+}
