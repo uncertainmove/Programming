@@ -291,3 +291,39 @@ int Sleep() {
     }
     return 0;
 }
+
+// 网易：丰收
+int Harvest() {
+    int n;
+    while (cin >> n) {
+        int a[n];
+        int sum = 0;
+        for (int i = 0; i < n; i ++) {
+            cin >> a[i];
+            a[i] += sum;
+            sum = a[i];
+        }
+        int m;
+        cin >> m;
+        vector<pair<int, int>> q (m);
+        for (int i = 0; i < m; i ++) {
+            cin >> q[i].first;
+            q[i].second = i;
+        }
+        // 对询问排序，后面使用两个指针交替在两个数组上移动来确定堆数
+        // 时间复杂度：O(m + n)
+        sort(q.begin(), q.end());
+
+        int result[m] = {};
+        int posA = 0, posQ = 0;
+        while (posA < n && posQ < m) {
+            if (a[posA] < q[posQ].first) posA ++;
+            else {
+                result[q[posQ].second] = posA + 1;
+                posQ ++;
+            }
+        }
+        for (int i = 0; i < m; i ++) cout << result[i] << endl;
+    }
+    return 0;
+}
