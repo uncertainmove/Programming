@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <vector>
 #include <cstring>
+#include <cmath>
 
 using namespace std;
 
@@ -180,7 +181,7 @@ int MatrixOverlapping() {
 }
 
 // 网易：牛牛的闹钟
-int main() {
+int ClockOfNN() {
     int N;
     int X;
     pair<int, int> AB;
@@ -214,4 +215,32 @@ int main() {
         cout << result.first << " " << result.second << endl;
     }
     return 0;
+}
+
+// 网易：牛牛的背包问题
+long NNsBackpackDp(long *x, long n, long w);
+int main() {
+    long n, w;
+    while (cin >> n >> w) {
+        long result = 0;
+        long v[n];
+        long long sum = 0;
+        for (long i = 0; i < n; i ++) {
+            cin >> v[i];
+            sum += v[i];
+        }
+        // 第i种零食放+第i种零食不放
+        if (sum <= w) {
+            // 部分用例可以用此判定条件筛除来减少运行时间
+            cout << (1 << n) << endl;
+        }
+        else cout << NNsBackpackDp(v, n, w) << endl;
+    }
+    return 0;
+}
+long NNsBackpackDp(long *v, long n, long w) {
+    if (w < 0) return 0;
+    else if (n == 0) return 1;
+
+    return (NNsBackpackDp(v + 1, n - 1, w) + NNsBackpackDp(v + 1, n - 1, w - v[0]));
 }
