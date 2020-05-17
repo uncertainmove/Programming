@@ -219,7 +219,7 @@ int ClockOfNN() {
 
 // 网易：牛牛的背包问题
 long NNsBackpackDp(long *x, long n, long w);
-int main() {
+int NNsBackpack() {
     long n, w;
     while (cin >> n >> w) {
         long result = 0;
@@ -244,3 +244,23 @@ long NNsBackpackDp(long *v, long n, long w) {
 
     return (NNsBackpackDp(v + 1, n - 1, w) + NNsBackpackDp(v + 1, n - 1, w - v[0]));
 }
+
+// 网易：俄罗斯方块
+int Tetris() {
+    int n, m;
+    while (cin >> n >> m) {
+        // 记录每列落下了多少方块
+        int tmp;
+        int c[n] = {};
+        for (int i = 0; i < m; i ++) {
+            cin >> tmp;
+            c[tmp - 1] ++;
+        }
+        int result = m;
+        for (int i = 0; i < n; i ++) result = min(result, c[i]);
+        cout << result << endl;
+    }
+    return 0;
+}
+
+// 网易：瞌睡
