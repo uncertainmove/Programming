@@ -410,7 +410,22 @@ int TidyRoom() {
 }
 
 // 网易：表达式求值
-int main() {
-    
+int ExpresionValue() {
+    int a, b, c;
+    while (cin >> a >> b >> c) {
+        int r1 = a + b + c;
+        int result = r1;
+        int r2 = a * b * c;
+        result = max(result, r2);
+        int r3 = (a + b) * c;
+        result = max(result, r3);
+        int r4 = a + b * c;
+        result = max(result, r4);
+        int r5 = a * b + c;
+        result = max(result, r5);
+        int r6 = a * (b + c);
+        result = max(result, r6);
+        cout << result << endl;
+    }
     return 0;
 }
