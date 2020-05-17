@@ -468,3 +468,53 @@ int Tower() {
     }
     return 0;
 }
+
+// 网易：小易的字典
+int CofMN(int m, int n) {
+    long long result = 1;
+    m = min(m, n - m);
+    for (int i = 0; i < m; i ++) {
+        result = result * (n - m + 1 + i) / (i + 1);
+    }
+    return result;
+}
+int main() {
+    int n, m, k;
+    while (cin >> n >> m >> k) {
+        string result;
+        int numOfA = -1;
+        long long sum = 1;
+        for (int i = 0; i <= n; i ++) {
+            // m个z与i个a排列组合
+            if (sum < k) sum = sum * (m + i + 1) / (i + 1);
+            else {
+                numOfA = i;
+                break;
+            }
+        }
+        if (numOfA == -1) {
+            cout << -1 << endl;
+            continue;
+        }
+        for (int i = 0; i < n - numOfA; i ++) result += 'a';
+        int Cmn = CofMN(numOfA - 1, m + numOfA - 1);
+        while (k != Cmn) {
+            // 第一位取a时，若后续位排列组合数仍达不到k，则说明第一位必须是z
+            if (k > Cmn) {
+                result += 'z';
+                k -= Cmn;
+                m --;
+            }
+            else if (k < Cmn) {
+                result += 'a';
+                numOfA --;
+            }
+            Cmn = CofMN(numOfA - 1, m + numOfA - 1);
+        }
+        numOfA --;
+        result += 'a';
+        while (m -- > 0) result += 'z';
+        while (numOfA -- > 0) result += 'a';
+        cout << result << endl;
+    }
+}
