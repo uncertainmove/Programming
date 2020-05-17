@@ -264,3 +264,30 @@ int Tetris() {
 }
 
 // 网易：瞌睡
+int Sleep() {
+    int n, k;
+    while (cin >> n >> k) {
+        int a[n] = {};
+        for (int i = 0; i < n; i ++) cin >> a[i];
+        int t[n] = {};
+        int interestWithNoWake = 0;
+        for (int i = 0; i < n; i ++) {
+            cin >> t[i];
+            if (t[i] == 1) interestWithNoWake += a[i];
+        }
+        // 第0分钟叫醒的收益
+        int income = 0;
+        for (int i = 0; i < k && i < n; i ++) {
+            if (t[i] == 0) income += a[i];
+        }
+        int result = interestWithNoWake + income;
+        for (int i = 1; i < n && i + k - 1 < n; i ++) {
+            if (t[i - 1] == 0) income -= a[i - 1];
+            if (t[i + k - 1] == 0) income += a[i + k - 1];
+            // 每分钟叫醒的收益
+            result = max(result, interestWithNoWake + income);
+        }
+        cout << result << endl;
+    }
+    return 0;
+}
