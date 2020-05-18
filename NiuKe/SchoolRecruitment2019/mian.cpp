@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstring>
 #include <cmath>
+#include <climits>
 
 using namespace std;
 
@@ -608,5 +609,62 @@ int TranslateToSumTree() {
     TreeNode *root = ConstructTree(qx, zx);
     ConstructSumTree(root);
     TraverseTreeInZX(root);
+    return 0;
+}
+
+// 快手：搭积木
+int BuildingBlocks() {
+    int N;
+    while (cin >> N) {
+        pair<int, int> WL[N];
+        for (int i = 0; i < N; i ++) {
+            cin >> WL[i].first >> WL[i].second;
+        }
+        sort(WL, WL + N);
+        int length[N] = {};
+        int result = 1;
+        length[0] = WL[0].second;
+        // 问题转化为查找最长升序子序列长度
+        for (int i = 1; i < N; i ++) {
+            if (WL[i].second >= length[result - 1]) {
+                length[result ++] = WL[i].second;
+            }
+            else {
+                // 此处使用upper_bound查找出保证升序状态下的可替换元素位置
+                // 替换掉该元素的作用：基于当前的最长升序子序列来为WL[i]重建一个属于它的当前最长升序子序列，该子序列对后续扩展要求的值更低
+                // 如果WL[i]的最长升序子序列 < 当前，则该替换不会影响当前序列的扩展
+                // 如果WL[i]的最长升序子序列 == 当前（替换的元素是当前序列的最后元素），则WL[i]的序列晋升为当前最长升序子序列
+                *(upper_bound(length, length + result, WL[i].second)) = WL[i].second;
+            }
+        }
+        cout << result << endl;
+    }
+    return 0;
+}
+
+static int climbinSt [1001] = {};
+
+// 快手：魔法深渊
+int ClimbinStairs(int N) {
+    const int maxR = 1e9 + 3;
+    int result = 0;
+    if (N == 0) return 1;
+    else if (climbinSt[N] > 0) return climbinSt[N];
+    for (int step = 1; step <= N; step *= 2) {
+        result += ClimbinStairs(N - step);
+        result %= maxR;
+    }
+    climbinSt[N] = result;
+    return result;
+}
+int MagicAbyss() {
+    int M;
+    cin >> M;
+    for (int i = 0; i < M; i ++) {
+        int N;
+        cin >> N;
+        int result = ClimbinStairs(N);
+        cout << result << endl;
+    }
     return 0;
 }
