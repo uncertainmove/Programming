@@ -553,3 +553,60 @@ int EarnMoreMoney() {
     }
     return 0;
 }
+
+// 快手：将满二叉树转化为求和树
+struct TreeNode {
+    int val;
+    int sum;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int val) : val(val), sum(0), left(NULL), right(NULL) {}
+};
+TreeNode *ConstructTree(vector<int> qx, vector<int> zx) {
+    if (qx.size() == 0) return NULL;
+    vector<int> qx1, qx2, zx1, zx2;
+    bool ch = 0;
+    for (int i = 0; i < zx.size(); i ++) {
+        if (zx[i] == qx[0]) ch = true;
+        else if (ch) zx2.push_back(zx[i]);
+        else zx1.push_back(zx[i]);
+    }
+    for (int i = 1; i < qx.size(); i ++) {
+        if (i <= zx1.size()) qx1.push_back(qx[i]);
+        else qx2.push_back(qx[i]);
+    }
+    TreeNode *result = new TreeNode (qx[0]);
+    result -> left = ConstructTree(qx1, zx1);
+    result -> right = ConstructTree(qx2, zx2);
+    return result;
+}
+int ConstructSumTree(TreeNode *root) {
+    if (root == NULL) return 0;
+    root -> sum = ConstructSumTree(root -> left) + ConstructSumTree(root -> right);
+    return root -> sum + root -> val;
+}
+void TraverseTreeInZX(TreeNode *root) {
+    if (root == NULL) return;
+    TraverseTreeInZX(root -> left);
+    cout << root -> sum << " ";
+    TraverseTreeInZX(root -> right);
+}
+int TranslateToSumTree() {
+    int n = 0;
+    vector<int> qx;
+    vector<int> zx;
+    int tmp;
+    while (cin >> tmp) {
+        qx.push_back(tmp);
+        n ++;
+        if (cin.get() == '\n') break;
+    }
+    while (cin >> tmp) {
+        zx.push_back(tmp);
+        if (cin.get() == '\n') break;
+    }
+    TreeNode *root = ConstructTree(qx, zx);
+    ConstructSumTree(root);
+    TraverseTreeInZX(root);
+    return 0;
+}
