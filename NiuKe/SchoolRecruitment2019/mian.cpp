@@ -478,7 +478,7 @@ int CofMN(int m, int n) {
     }
     return result;
 }
-int main() {
+int XiaoYisDictionary() {
     int n, m, k;
     while (cin >> n >> m >> k) {
         string result;
@@ -517,4 +517,39 @@ int main() {
         while (numOfA -- > 0) result += 'a';
         cout << result << endl;
     }
+    return 0;
+}
+
+// 快手：获得更多的奖金
+int EarnMoreMoney() {
+    int n;
+    while (cin >> n) {
+        int d[n];
+        for (int i = 0; i < n; i ++) cin >> d[i];
+        int pos1 = 0, pos2 = n - 1;
+        long sum1 = 0, sum2 = 0;
+        int cut1 = 0, cut2 = n - 1;
+        while (pos1 <= pos2 + 1) {
+            if (sum1 == sum2) {
+                cut1 = pos1;
+                cut2 = pos2;
+                sum1 += d[pos1 ++];
+                sum2 += d[pos2 --];
+            }
+            else if (sum1 > sum2) {
+                sum2 += d[pos2];
+                pos2 --;
+            }
+            else if (sum1 < sum2) {
+                sum1 += d[pos1];
+                pos1 ++;
+            }
+        }
+        long result = 0;
+        for (int i = 0; i < cut1; i ++) {
+            result += d[i];
+        }
+        cout << result << endl;
+    }
+    return 0;
 }
