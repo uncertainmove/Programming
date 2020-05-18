@@ -668,3 +668,75 @@ int MagicAbyss() {
     }
     return 0;
 }
+
+// 快手：善变的同伴
+// C++11(clang++ 3.9): 100%
+// C++14(g++5.4): 80%
+int FicklePartner() {
+    int N, M;
+    while (cin >> N >> M) {
+        int combineA[N];
+        int maxIndex = 0;
+        cin >> combineA[0];
+        int maxResult = 0;
+        if (combineA[0] > 0) maxResult += combineA[0];
+        for (int i = 1; i < N; i ++) {
+            // 合并连续的正数和连续的负数
+            int tmp;
+            cin >> tmp;
+            if (tmp > 0) maxResult += tmp;
+            if ((tmp > 0 && combineA[maxIndex] < 0) || (tmp < 0 && combineA[maxIndex] > 0)) combineA[++ maxIndex] = tmp;
+            else combineA[maxIndex] += tmp;
+        }
+        int maxM = 0; // 打菜maxM次就可以得到全局最大值
+        if (maxIndex % 2 == 1) {
+            // 元素个数为偶数
+            maxM = (maxIndex + 1) / 2;
+        }
+        else {
+            // 元素个数为奇数时，正数个数受排列影响
+            if (combineA[0] > 0) maxM = maxIndex / 2 + 1;
+            else maxM = maxIndex / 2;
+        }
+
+        // M次表示需要取出M个正数
+        // maxM表示能够提供的正数
+        if (maxM <= M) {
+            cout << maxResult << endl;
+        }
+        else {
+            // 最大m段子段和问题
+            // 元素dp[i][j]表示前j个数取i段所能达到的最大值，第i段必须以第j个数结尾
+            // 状态转移方程：
+            // 第j个数与前面段相连：dp[i][j] = dp[i][j - 1] + combineA[j]
+            // 第j个数单独一段：dp[i][j] = max(dp[i - 1][k]) + combineA[j] {0 < k < j}
+            // int dp[M + 1][maxIndex + 2] = {};
+            int maxA[M + 1];
+            int dp01[2][M + 1];
+            for (int i = 0; i < 2; i ++) {
+                for (int j = 0; j < M + 1; j ++) {
+                    dp01[i][j] = 0;
+                }
+            }
+            for (int i = 0; i < M + 1; i ++) {
+                maxA[i] = 0;
+            }
+            int result = 0;
+            bool ch = 0;
+            for (int j = 1; j <= maxIndex + 1; j ++) {
+                ch = !ch;
+                for (int i = 1; i <= M; i ++) {
+                    // maxA[i] = max(dp[i - 1][j - 1], maxA[i]);
+                    maxA[i] = max(dp01[ch][i - 1], maxA[i]);
+                    dp01[!ch][i] = max(dp01[ch][i] + combineA[j - 1], maxA[i] + combineA[j - 1]);
+                    // dp[i][j] = max(dp[i][j - 1] + combineA[j - 1], maxA[i] + combineA[j - 1]);
+                    // result = max(result, dp[i][j]);
+                    result = max(result, dp01[!ch][i]);
+                }
+            }
+            cout << result << endl;
+        }
+    }
+
+    return 0;
+}
