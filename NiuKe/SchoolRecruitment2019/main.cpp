@@ -866,3 +866,35 @@ int GamePoster() {
     }
     return 0;
 }
+
+// 快手：合并数组
+int CombinedArray() {
+    vector<int> a1, a2;
+    int tmp;
+    while (cin >> tmp) {
+        a1.clear();
+        a2.clear();
+        a1.push_back(tmp);
+        while (cin.get() == ',') {
+            cin >> tmp;
+            a1.push_back(tmp);
+        }
+        while (cin >> tmp) {
+            a2.push_back(tmp);
+            if (cin.get() == '\n') break;
+        }
+        int pos1 = 0, pos2 = 0;
+        vector<int> result;
+        while (pos1 < a1.size() && pos2 < a2.size()) {
+            if (a1[pos1] > a2[pos2]) {
+                result.push_back(a2[pos2 ++]);
+            }
+            else result.push_back(a1[pos1 ++]);
+        }
+        while (pos1 < a1.size()) result.push_back(a1[pos1 ++]);
+        while (pos2 < a2.size()) result.push_back(a2[pos2 ++]);
+        for (int i = 0; i < result.size() - 1; i ++) cout << result[i] << ",";
+        cout << result[result.size() - 1] << endl;
+    }
+    return 0;
+}
