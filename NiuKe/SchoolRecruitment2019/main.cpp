@@ -740,3 +740,44 @@ int FicklePartner() {
 
     return 0;
 }
+
+// 快手：字符串归一化
+int StringNormalized() {
+    const int cSize = 'z' - 'a' + 1;
+    string str;
+    while (cin >> str) {
+        int count[cSize];
+        memset(count, 0, sizeof(count));
+        for (int i = 0; i < str.length(); i ++) count[str[i] - 'a'] ++;
+        for (int i = 0; i < cSize; i ++) {
+            if (count[i] > 0) {
+                char c = 'a' + i;
+                cout << c << count[i];
+            }
+        }
+        cout << endl;
+    }
+    return 0;
+}
+
+// 快手：字符串排序
+bool StrSortCompare(string s1, string s2) {
+    if (s1.length() > s2.length()) return false;
+    else return (s1.compare(s2) <= 0);
+}
+int StrSort() {
+    int M;
+    string str;
+    vector<string> result;
+    cin >> M;
+    cin.get();
+    for (int i = 0; i < M; i ++) {
+        cin >> str;
+        result.push_back(str.substr(str.length() - 6, 6));
+    }
+    sort(result.begin(), result.end(), StrSortCompare);
+    for (int i = 0; i < M; i ++) {
+        cout << result[i] << endl;
+    }
+    return 0;
+}
