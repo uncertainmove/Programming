@@ -898,3 +898,68 @@ int CombinedArray() {
     }
     return 0;
 }
+
+// 快手：字符串包含
+int SubString() {
+    string str1, str2;
+    while (cin >> str1 >> str2) {
+        if (str1.find(str2) != str1.npos || str2.find(str1) != str2.npos) cout << 1 << endl;
+        else cout << 0 << endl;
+    }
+    return 0;
+}
+
+// 快手：最多数量货物装箱问题
+int MaxNumber() {
+    int X;
+    while (cin >> X) {
+        int pos1 = 0, pos2 = 0, pos3 = 0;
+        vector<pair<int, int>> v;
+        v.push_back(pair<int, int>(0, 0));
+        int minV = 0;
+        while (minV < X) {
+            // 生成k个数的和组合升序列
+            minV = min(v[pos1].first + 3, v[pos2].first + 5);
+            minV = min(minV, v[pos3].first + 7);
+            if (minV == v[pos1].first + 3) {
+                v.push_back(pair<int, int>(minV, v[pos1].second + 1));
+                pos1 ++;
+            }
+            if (minV == v[pos2].first + 5) {
+                v.push_back(pair<int, int>(minV, v[pos2].second + 1));
+                pos2 ++;
+            }
+            if (minV == v[pos3].first + 7) {
+                v.push_back(pair<int, int>(minV, v[pos3].second + 1));
+                pos3 ++;
+            }
+        }
+        if (minV == X) cout << v[v.size() - 1].second << endl;
+        else cout << -1 << endl;
+    }
+    return 0;
+}
+
+// 快手：最少数量货物装箱问题
+int MinNumberHelper(int weight) {
+    if (weight < 0) return -1;
+    else if (weight == 0) return 0;
+    int n1 = MinNumberHelper(weight - 7);
+    int n2 = MinNumberHelper(weight - 5);
+    int n3 = MinNumberHelper(weight - 3);
+    if (n1 < 0) n1 = max(n2, n3);
+    if (n2 < 0) n2 = max(n1, n3);
+    if (n3 < 0) n3 = max(n1, n2);
+    int result;
+    result = min(n1, n2);
+    result = min(result, n3);
+    if (result < 0) return -1;
+    else return result + 1;
+}
+int main() {
+    int X;
+    while (cin >> X) {
+        cout << MinNumberHelper(X) << endl;
+    }
+    return 0;
+}
