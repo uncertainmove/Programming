@@ -851,3 +851,18 @@ int LatexLover() {
     }
     return 0;
 }
+
+// 快手：游戏海报
+int GamePoster() {
+    string str;
+    const int len = 'z' - 'a' + 1;
+    while (cin >> str) {
+        int count[len];
+        memset(count, 0, sizeof(count));
+        int result = 0;
+        for (int i = 0; i < str.length(); i ++) count[str[i] - 'a'] ++;
+        for (int i = 0; i < len; i ++) result += str.length() + 1 - count[i];
+        cout << result << endl;
+    }
+    return 0;
+}
