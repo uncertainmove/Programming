@@ -825,3 +825,29 @@ int PalindromeStringContinuous() {
 }
 
 // 快手：Latex爱好者
+int LatexLover() {
+    int N, P, H, W;
+    // S*S*SUM(a)=H*W*P
+    while (cin >> N >> P >> H >> W) {
+        int a[N];
+        int sumA = 0;
+        for (int i = 0; i < N; i ++) {
+            cin >> a[i];
+            sumA += a[i];
+        }
+        int S = sqrt(double(H * W * P) / sumA);
+        S = min(S, W);
+        S = min(S, H);
+        while (S > 0) {
+            int oneLineWords = W / S;
+            int linesOnePage = H / S;
+            int lineLimit = linesOnePage * P;
+            int sumLines = 0;
+            for (int i = 0; i < N; i ++) sumLines += a[i] / oneLineWords + (a[i] % oneLineWords > 0);
+            if (sumLines > lineLimit) S --;
+            else break;
+        }
+        cout << S << endl;
+    }
+    return 0;
+}
