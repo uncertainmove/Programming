@@ -781,3 +781,47 @@ int StrSort() {
     }
     return 0;
 }
+
+// 快手：回文字符串（不要求字串连续）
+int PalindromeStringNoContinuous() {
+    string str;
+    while (cin >> str) {
+        int length = str.length();
+        int dp[length][length];
+        memset(dp, 0, sizeof(dp));
+        for (int r = 0; r < length; r ++) {
+            dp[r][r] = 1;
+            for (int l = r - 1; l >= 0; l --) {
+                if (str[l] == str[r]) dp[l][r] = dp[l + 1][r - 1] + 2;
+                else dp[l][r] = max(dp[l + 1][r], dp[l][r - 1]);
+            }
+        }
+        cout << dp[0][length - 1] << endl;
+    }
+    return 0;
+}
+// 要求字符串连续
+int PalindromeStringContinuous() {
+    string str;
+    while (cin >> str) {
+        int length = str.length();
+        string result;
+        int resultLen = 0;
+        bool dp[length][length];
+        memset(dp, 0, sizeof(dp));
+        for (int r = 0; r < length; r ++) {
+            dp[r][r] = true;
+            for (int l = r - 1; l >= 0; l --) {
+                if (str[l] == str[r]) dp[l][r] = l + 1 > r - 1 ? true : dp[l + 1][r - 1];
+                if (dp[l][r] && resultLen < r - l + 1) {
+                    resultLen = r - l + 1;
+                    result = str.substr(l, r - l + 1);
+                }
+            }
+        }
+        cout << result << endl;
+    }
+    return 0;
+}
+
+// 快手：Latex爱好者
