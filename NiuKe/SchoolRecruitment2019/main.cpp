@@ -1048,3 +1048,34 @@ int MaxSumOfContinuousSubArray() {
     }
     return 0;
 }
+
+// 快手：字符串长度最大面积
+int MaxAreaOfStringLength() {
+    string str;
+    getline(cin, str);
+    // 为每个字符串增加标记，表示有无a~z
+    vector<pair<string, int>> v;
+    for (int i = 0; i < str.length(); i ++) {
+        if (str[i] == '\"') {
+            string tmp = "";
+            int sign = 0;
+            i ++;
+            while (str[i] != '\"') {
+                sign |= (1 << (str[i] - 'a'));
+                tmp += str[i ++];
+            }
+            v.push_back(pair<string, int>(tmp, sign));
+        }
+    }
+    int result = 0;
+    for (int i = 0; i < v.size(); i ++) {
+        for (int j = i + 1; j < v.size(); j ++) {
+            if ((v[i].second & v[j].second) == 0) {
+                int tmp = v[i].first.length() * v[j].first.length();
+                result = max(result, tmp);
+            }
+        }
+    }
+    cout << result << endl;
+    return 0;
+}
