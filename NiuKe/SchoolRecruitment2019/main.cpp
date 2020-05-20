@@ -1003,3 +1003,21 @@ int StringCompression() {
     }
     return 0;
 }
+
+// 快手：解析加减法运算
+int ParseAddSubOp() {
+    int num = 0;
+    while (cin >> num) {
+        int result = num;
+        char op;
+        while ((op = cin.get()) != '\n') {
+            cin >> num;
+            switch (op) {
+                case '+': result += num; break;
+                case '-': result -= num; break;
+            }
+        }
+        cout << result << endl;
+    }
+    return 0;
+}
