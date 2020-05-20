@@ -985,4 +985,21 @@ int PalindromeSubStrCount() {
     return 0;
 }
 
-// 快手：
+// 快手：字符串压缩
+int StringCompression() {
+    string str;
+    while (cin >> str) {
+        char cuChar = str[0];
+        int count = 1;
+        for (int i = 1; i < str.length(); i ++) {
+            if (str[i] == cuChar) count ++;
+            else {
+                cout << count << cuChar;
+                cuChar = str[i];
+                count = 1;
+            }
+        }
+        cout << count << cuChar << endl;
+    }
+    return 0;
+}
