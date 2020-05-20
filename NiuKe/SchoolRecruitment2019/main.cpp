@@ -1107,3 +1107,43 @@ int ValueOfNth() {
     }
     return 0;
 }
+
+// 快手：a/b
+int ADivB() {
+    int a, b;
+    while (cin >> a >> b) {
+        if (a % b == 0) cout << a / b << endl;
+        else {
+            string result;
+            int tmp = a / b;
+            int c_tmp = 10;
+            while (tmp / c_tmp > 0) c_tmp *= 10;
+            c_tmp /= 10;
+            while (c_tmp != 0) {
+                result += (char)(tmp / c_tmp + '0');
+                tmp = tmp % c_tmp;
+                c_tmp /= 10;
+            }
+            result += '.';
+            // 计算循环部分
+            // 通过余数判断，如果后续余数与前面某个余数相等，则说明进入循环
+            int yuShuPos[b];
+            memset(yuShuPos, 0, sizeof(yuShuPos));
+            int cuA = (a % b) * 10;
+            yuShuPos[a % b] = result.length();
+            while (cuA != 0) {
+                tmp = (cuA / b) + '0';
+                result += tmp;
+                if (yuShuPos[cuA % b] > 0) {
+                    result += ')';
+                    result.insert(yuShuPos[cuA % b], "(");
+                    break;
+                }
+                yuShuPos[cuA % b] = result.length();
+                cuA = (cuA % b) * 10;
+            }
+            cout << result << endl;
+        }
+    }
+    return 0;
+}
