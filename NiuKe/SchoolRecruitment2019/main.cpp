@@ -1095,3 +1095,15 @@ int DayOfThisYear() {
     }
     return 0;
 }
+
+// 快手：数字序列第n位的值
+int ValueOfNth() {
+    int n;
+    while (cin >> n) {
+        int count = 0;
+        int sum = 0;
+        while (sum < n) sum += (++ count);
+        cout << count << endl;
+    }
+    return 0;
+}
