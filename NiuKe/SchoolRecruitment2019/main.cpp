@@ -956,10 +956,33 @@ int MinNumberHelper(int weight) {
     if (result < 0) return -1;
     else return result + 1;
 }
-int main() {
+int MinNumberOfGoods() {
     int X;
     while (cin >> X) {
         cout << MinNumberHelper(X) << endl;
     }
     return 0;
 }
+
+// 快手：回文子串
+int PalindromeSubStrCount() {
+    string str;
+    while (cin >> str) {
+        int len = str.length();
+        bool dp[len][len];
+        memset(dp, 0, sizeof(dp));
+        int count = 0;
+        for (int r = 0; r < len; r ++) {
+            dp[r][r] = true;
+            count ++;
+            for (int l = r - 1; l >= 0; l --) {
+                if (str[l] == str[r]) dp[l][r] = (l == r - 1) ? true : dp[l + 1][r - 1];
+                if (dp[l][r]) count ++;
+            }
+        }
+        cout << count << endl;
+    }
+    return 0;
+}
+
+// 快手：
