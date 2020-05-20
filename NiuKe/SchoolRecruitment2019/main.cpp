@@ -1021,3 +1021,30 @@ int ParseAddSubOp() {
     }
     return 0;
 }
+
+// 快手：求连续子数组的最大和
+int MaxSumOfContinuousSubArray() {
+    int num;
+    while (cin >> num) {
+        vector<int> v;
+        v.push_back(num);
+        while (cin.get() == ',') {
+            cin >> num;
+            v.push_back(num);
+        }
+        int len = v.size();
+        int dp[len][len];
+        // dp[l][r]表示连续子数组为l~r
+        int result = 0;
+        for (int r = 0; r < len; r ++) {
+            dp[r][r] = v[r];
+            result = max(result, v[r]);
+            for (int l = r - 1; l >= 0; l --) {
+                dp[l][r] = dp[l][r - 1] + v[r];
+                result = max(result, dp[l][r]);
+            }
+        }
+        cout << result << endl;
+    }
+    return 0;
+}
