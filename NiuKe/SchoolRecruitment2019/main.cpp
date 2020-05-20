@@ -1079,3 +1079,19 @@ int MaxAreaOfStringLength() {
     cout << result << endl;
     return 0;
 }
+
+// 快手：今年的第几天
+int DayOfThisYear() {
+    int Y, M, D;
+    int Day[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    while (cin >> Y >> M >> D) {
+        int runYear = 0;
+        if ((Y % 4) == 0 && (Y % 100) != 0) runYear = 1;
+        if ((Y % 400) == 0) runYear = 1;
+        if (runYear) Day[1] = 29;
+        int result = D;
+        for (int i = 0; i < M - 1; i ++) result += Day[i];
+        cout << result << endl;
+    }
+    return 0;
+}
