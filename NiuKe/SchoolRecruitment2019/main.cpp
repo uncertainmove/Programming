@@ -1171,3 +1171,33 @@ int ClimbStairsWithLowestCost() {
     }
     return 0;
 }
+
+// 招商银行：鸡鸭分类问题
+int ClassifyChickenDuck() {
+    string str;
+    cin >> str;
+    // 最后只有两种情况：所有鸡在左边，或者所有鸡在右边
+    int chicken = 0;
+    int duck = 0;
+    // 所有鸡在左边
+    int posC = 0;
+    int result1 = 0;
+    for (int i = 0; i < str.length(); i ++) {
+        if (str[i] == 'C') {
+            result1 += (i - posC);
+            posC ++;
+        }
+    }
+    // 所有鸡在右边
+    int posD = 0;
+    int result2 = 0;
+    for (int i = 0; i < str.length(); i ++) {
+        if (str[i] == 'D') {
+            result2 += (i - posD);
+            posD ++;
+        }
+    }
+    int result = min(result1, result2);
+    cout << result << endl;
+    return 0;
+}
