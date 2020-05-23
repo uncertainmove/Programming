@@ -1201,3 +1201,24 @@ int ClassifyChickenDuck() {
     cout << result << endl;
     return 0;
 }
+
+// 招商银行：比特币最佳买卖时机
+int BestTimeOfBuySoldBitcoin() {
+    vector<int> price;
+    int p;
+    while (cin >> p) {
+        price.push_back(p);
+        if (cin.get() == '\n') break;
+    }
+    // dp[i][j]表示第i天买入第j天卖出的收益
+    int result = 0;
+    int dp[price.size()][price.size()];
+    for (int i = 0; i < price.size(); i ++) {
+        for (int j = i; j < price.size(); j ++) {
+            dp[i][j] = price[j] - price[i];
+            result = max(dp[i][j], result);
+        }
+    }
+    cout << result << endl;
+    return 0;
+}
