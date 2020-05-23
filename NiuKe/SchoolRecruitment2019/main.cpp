@@ -1147,3 +1147,27 @@ int ADivB() {
     }
     return 0;
 }
+
+// 快手：最小代价爬楼梯
+int ClimbStairsWithLowestCost() {
+    vector<int> v;
+    int cost;
+    while (cin >> cost) {
+        v.push_back(cost);
+        if (cin.get() == '\n') break;
+    }
+    if (v.size() == 0) cout << 0 << endl;
+    else {
+        // 动态规划
+        // dp[i]表示跳到第i层所需的最小代价
+        // dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])
+        int dp[v.size() + 1];
+        dp[0] = 0;
+        dp[1] = 0;
+        for (unsigned int i = 0; i < v.size() - 1; i ++) {
+            dp[i + 2] = min(dp[i] + v[i], dp[i + 1] + v[i + 1]);
+        }
+        cout << dp[v.size()] << endl;
+    }
+    return 0;
+}
