@@ -1222,3 +1222,31 @@ int BestTimeOfBuySoldBitcoin() {
     cout << result << endl;
     return 0;
 }
+
+// 招商银行：爱吃喵粮的小招喵
+int EatingCat() {
+    int N = 0;
+    vector<int> p;
+    int tmp;
+    int sumP = 0;
+    while (cin >> tmp) {
+        N ++;
+        sumP += tmp;
+        p.push_back(tmp);
+        if (cin.get() == '\n') break;
+    }
+    int H;
+    cin >> H;
+    // 平均速度为：sum(p) / H
+    int K = sumP / H + (sumP % H > 0);
+    while (true) {
+        int time = 0;
+        for (int i = 0; i < p.size(); i ++) {
+            time += p[i] / K + (p[i] % K > 0);
+        }
+        if (time > H) K ++;
+        else break;
+    }
+    cout << K << endl;
+    return 0;
+}
