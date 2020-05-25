@@ -1250,3 +1250,24 @@ int EatingCat() {
     cout << K << endl;
     return 0;
 }
+
+// 招商银行：X游戏
+int XGame() {
+    int N;
+    cin >> N;
+    // 只有含2，5，6，9的数为好数
+    int count = 0 ;
+    for (int i = 1; i <= N; i ++) {
+        int num = i;
+        int sign = 0;
+        while (num > 0) {
+            int ys = num % 10;
+            if (sign != -1 && (ys == 2 || ys == 5 || ys == 6 || ys == 9)) sign = 1;
+            else if (ys == 3 || ys == 4 || ys == 7) sign = -1;
+            num = num / 10;
+        }
+        if (sign == 1) count ++;
+    }
+    cout << count << endl;
+    return 0;
+}
