@@ -1314,3 +1314,21 @@ int WorkerAttendance() {
 }
 
 // 招商银行：解码方法
+int Decode() {
+    string str;
+    while (cin >> str) {
+        // 动态规划，dp[i]表示i个字符的解码方法
+        // (1) s[i - 1] ~ s[i]为有效编码：dp[i] = dp[i - 1] + dp[i - 2];
+        // (2) s[i - 1] ~ s[i]为无效编码：dp[i] = dp[i - 1]
+        vector<int> dp;
+        dp.push_back(1);
+        dp.push_back(1);
+        for (int i = 1; i < str.length(); i ++) {
+            if ((str[i - 1] == '1' && str[i] >= '0' && str[i] <= '9') || (str[i - 1] == '2' && str[i - 1] >= '0' && str[i - 1] <= '6')) {
+                dp.push_back(dp[i] + dp[i - 1]);
+            } else dp.push_back(dp[i]);
+        }
+        cout << dp[dp.size() - 1] << endl;
+    }
+    return 0;
+}
