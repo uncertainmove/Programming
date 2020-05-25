@@ -1271,3 +1271,32 @@ int XGame() {
     cout << count << endl;
     return 0;
 }
+
+// 招商银行：糖果分配
+int CandyDistribution() {
+    vector<int> g, s;
+    int gi, sj;
+    while (cin >> gi) {
+        g.push_back(gi);
+        if (cin.get() == '\n') break;
+    }
+    while (cin >> sj) {
+        s.push_back(sj);
+        if (cin.get() == '\n') break;
+    }
+    // 将糖果尺寸和小孩胃口降序排序，每次试图满足剩余最大胃口的孩子
+    sort(g.begin(), g.end());
+    sort(s.begin(), s.end());
+
+    int posS = 0, posG = 0;
+    int result = 0;
+    while (posS < s.size() && posG < g.size()) {
+        if (g[posG] <= s[posS]) {
+            posS ++;
+            posG ++;
+            result ++;
+        } else posS ++;
+    }
+    cout << result << endl;
+    return 0;
+}
