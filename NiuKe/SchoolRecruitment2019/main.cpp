@@ -1300,3 +1300,17 @@ int CandyDistribution() {
     cout << result << endl;
     return 0;
 }
+
+// 招商银行：员工考勤记录
+int WorkerAttendance() {
+    // 连续N天只有0个A，1个A或者2个A都符合
+    // 1 + C(1, N) + C(2, N)
+    int N;
+    while (cin >> N) {
+        int result = 1 + N + N * (N - 1) / 2;
+        cout << result << endl;
+    }
+    return 0;
+}
+
+// 招商银行：解码方法
