@@ -1332,3 +1332,31 @@ int Decode() {
     }
     return 0;
 }
+
+// 招商：飘流船问题
+int DriftingBoat() {
+    vector<int> people;
+    int limit;
+    int weight;
+    while (cin >> weight) {
+        people.push_back(weight);
+        if (cin.get() == '\n') break;
+    }
+    cin >> limit;
+    sort(people.begin(), people.end());
+    int posSt = 0, posEd = people.size() - 1;
+    int result = 0;
+    while (posEd >= posSt) {
+        if (people[posEd] + people[posSt] > limit) {
+            result ++;
+            posEd --;
+        }
+        else {
+            posSt ++;
+            posEd --;
+            result ++;
+        }
+    }
+    cout << result << endl;
+    return 0;
+}
