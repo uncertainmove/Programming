@@ -4,6 +4,8 @@
 #include <cstring>
 #include <cmath>
 #include <climits>
+#include <queue>
+#include <set>
 
 using namespace std;
 
@@ -1358,5 +1360,145 @@ int DriftingBoat() {
         }
     }
     cout << result << endl;
+    return 0;
+}
+
+// 招商：推倒吧骨牌
+int PushOffCards() {
+    string str;
+    cin >> str;
+    if (str.length() == 0) {
+        cout << endl;
+        return 0;
+    }
+    string result;
+    vector<pair<int, char>> op;
+    for (int i = 0; i < str.length(); i ++) {
+        if (str[i] != '.') {
+            op.push_back(pair<int, char>(i, str[i]));
+        }
+    }
+    // 在 op 中进行匹配
+    if (op.size() == 0) {
+        cout << str << endl;
+        return 0;
+    }
+    // 处理头部
+    if (op[0].second == 'L') {
+        for (int i = 0; i < op[0].first; i ++) result += 'L';
+    }
+    else if (op[0].second == 'R') {
+        for (int i = 0; i < op[0].first; i ++) result += '.';
+    }
+    for (int i = 1; i < op.size(); i ++) {
+        if (op[i - 1].second == 'L' && op[i].second == 'L') {
+            for (int j = op[i - 1].first; j < op[i].first; j ++) result += 'L';
+        }
+        else if (op[i - 1].second == 'L' && op[i].second == 'R') {
+            result += 'L';
+            for (int j = op[i - 1].first + 1; j < op[i].first; j ++) result += '.';
+        }
+        else if (op[i - 1].second == 'R' && op[i].second == 'L') {
+            result += 'R';
+            for (int j = 0; j < (op[i].first - op[i - 1].first - 1) / 2; j ++) result += 'R';
+            if ((op[i].first - op[i - 1].first - 1) % 2) result += '.';
+            for (int j = 0; j < (op[i].first - op[i - 1].first - 1) / 2; j ++) result += 'L';
+        }
+        else if (op[i - 1].second == 'R' && op[i].second == 'R') {
+            for (int j = op[i - 1].first; j < op[i].first; j ++) result += 'R';
+        }
+    }
+    // 处理尾部
+    if (op[op.size() - 1].second == 'L') {
+        result += 'L';
+        for (int i = op[op.size() - 1].first + 1; i < str.length(); i ++) result += '.';
+    }
+    else {
+        for (int i = op[op.size() - 1].first; i < str.length(); i ++) result += 'R';
+    }
+    cout << result << endl;
+    return 0;
+}
+
+// 单源点最短路径
+int Dijkstra() {
+    int edgeNums, vertexNums;
+    cin >> vertexNums >> edgeNums;
+    int edge[vertexNums][vertexNums] = {};
+    for (int i = 0; i < edgeNums; i ++) {
+        int source, target;
+        cin >> source >> target;
+        edge[source][target] = 1;
+        edge[target][source] = 1;
+    }
+    int visited[vertexNums] = {};
+    int dis[vertexNums];
+    for (int i = 0; i < vertexNums; i ++) {
+        dis[i] = -1;
+    }
+    queue<int> q;
+    visited[0] = 1;
+    dis[0] = 0;
+    q.push(0);
+    while (!q.empty()) {
+        int cu = q.front();
+        q.pop();
+        for (int i = 0; i < vertexNums; i ++) {
+            if (!visited[i] && edge[cu][i]) {
+                dis[i] = dis[cu] + 1;
+                visited[i] = 1;
+                q.push(i);
+            }
+        }
+    }
+    for (int i = 0; i < vertexNums; i ++) {
+        cout << i << " " << dis[i] << endl;
+    }
+    return 0;
+}
+
+// 并查集
+// 分析图的连通性
+int find(int x, int * look) {
+    // 返回x所在连通子图中的根编号节点
+    int root = x;
+    while (look[root] != root) {
+        root = look[root];
+    }
+    int i = x;
+    // 压缩路径
+    while (i != root) {
+        int tmp = look[i];
+        look[i] = root;
+        i = tmp;
+    }
+    return root;
+}
+
+void join(int x, int y, int * look) {
+    int fx = find(x, look);
+    int fy = find(y, look);
+    if (fx == fy) return;
+    look[fx] = fy;
+}
+
+int ParallelSearchSet() {
+    int vertexNums, edgeNums;
+    cin >> vertexNums >> edgeNums;
+    int look[vertexNums];
+    for (int i = 0; i < vertexNums; i ++) {
+        look[i] = i;
+    }
+    for (int i = 0; i < edgeNums; i ++) {
+        int source, target;
+        cin >> source >> target;
+        join(source, target, look);
+    }
+    // 使用set统计连通分量个数
+    set<int> s;
+    for (int i = 0; i < vertexNums; i ++) {
+        s.insert(find(i, look));
+    }
+    cout << s.size() << endl;
     return 0;
 }
