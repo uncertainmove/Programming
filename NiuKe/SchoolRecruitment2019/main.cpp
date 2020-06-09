@@ -1502,3 +1502,27 @@ int ParallelSearchSet() {
     cout << s.size() << endl;
     return 0;
 }
+
+// 招商银行：重叠的装饰
+int ML[10000000] = {0};
+int PosterCover() {
+    int N;
+    cin >> N;
+    
+    // 解法：使用长度一千万的数组模拟海报覆盖
+    for (int i = 1; i < N + 1; i ++) {
+        int L, R;
+        cin >> L >> R;
+        for (int j = L; j <= R; j ++) ML[j] = i;
+    }
+    set<int> s;
+    int count = 0;
+    for (int i = 0; i < 10000000; i ++) {
+        if (ML[i] > 0 && s.find(ML[i]) == s.end()) {
+            count ++;
+            s.insert(ML[i]);
+        }
+    }
+    cout << count << endl;
+    return 0;
+}
